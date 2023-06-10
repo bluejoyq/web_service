@@ -5,6 +5,8 @@ from blog.forms import PostForm
 from .models import Post
 from django.shortcuts import render, get_object_or_404, redirect
 # Create your views here.
+from rest_framework import viewsets
+from .serializers import PostSerializer
 
 
 def post_list(request):
@@ -42,3 +44,8 @@ def post_edit(request, pk):
             return redirect('post_detail', pk=post.pk)
     form = PostForm(instance=post)
     return render(request, 'blog/post_edit.html', {'form': form})
+
+
+class IntruderImage(viewsets.ModelViewSet):
+    queryset = Post.objects.all()
+    serializer_class = PostSerializer
